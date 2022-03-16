@@ -1,6 +1,7 @@
 const User = require("../model/userModel")
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
+const Loan = require("../model/loanModel")
 
 
 const VTGenerator = async (data)=>{    
@@ -46,6 +47,8 @@ exports.registerUser = async (req, res) => {
     });
     // set username
     user.set_username(data.email)
+    // det storeId
+    user.set_storeId()
     // Set password
     user.set_passwordHash(data.password);
     user.VT_KEY = await VTGenerator(data);
@@ -106,13 +109,15 @@ exports.loginUser = async (req, res) => {
 };
 
 // Get User List
-exports.getUserInsight = async (req, res) => {
+exports.getUserDetail = async (req, res) => {
   try {
+    // GET LOANS
+    const loans = await Loan.find({propOf: req.params.userId})
     // Get List
-    const user = await User.findById(req.params.userId);
+    const user = await User.findByIdAndUpdate(req.params.userId, loans);
     // Resturn Response
     if (!user) res.status(400).send({ result:false,message: "Error to get User List" });
-    res.send({result: true, data: user.insight, views : user.views, links : user.links});
+    res.send({result: true, data: {...user, loanCount : user.loans}});
   } catch (error) {
     res.status(400).send({ message: error });
   }

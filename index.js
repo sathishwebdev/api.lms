@@ -7,6 +7,7 @@ app.use(require("./helpers/errorHandler"))
 app.use(require("./helpers/jwt")());
 
 app.use("/api/users", require("./routes/user.routes"));
+app.use("/api/loans", require("./routes/loan.routes"));
 
 
 app.get('/', (req, res)=>{res.send("Lms server started")})

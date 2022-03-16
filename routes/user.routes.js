@@ -16,6 +16,6 @@ router.post('/forgetpassword', userController.forgetPassword)
 // change password
 router.post('/changepassword/:userId', userController.changePassword)
 // GET USER INSIGHT
-router.get('/insight/:userId', userController.getUserInsight)
+router.get('/:userId', userController.getUserDetail)
 
 module.exports = router;

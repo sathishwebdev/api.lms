@@ -26,11 +26,16 @@ exports.createNewLoan = async (req, res) =>{
             address: data.address,
             contact: data.contact,
             amount: data.amount,
-            property : data.property,
+            property : {
+                name : data.propertyName,
+                weight: data.propertyWeight,
+                quantity : data.propertyQuantity
+            },
+            time : data.time,
             propOf : req.params.userId
         });
 
-        loan.setLoanId(data.storeId, user.loans.length )
+        loan.setLoanId(user.storeId, user.loans.length )
 
        let newLoan = await loan.save()
 
@@ -40,11 +45,35 @@ exports.createNewLoan = async (req, res) =>{
 
         !updateUserLoans 
             ? res.status(400).send({result: false, error:true, message : "Error Occurs", data: null })
-            : res.send({result: true, error:false, message : "Successfully created.", data: updateUserLoans})
+            : res.send({result: true, error:false, message : "Successfully created.", data: newLoan})
 
+    }catch(error){
+        res.status(400).send({result: false, error:true, message : error.message, detail: error, data: null})
+    }
+}
 
+// GET LOAN BY LOAN ID
 
-    }catch(err){
+exports.getLoanByLoanId = async (req, res) =>{
+    try{
+        let loan = await Loan.findOne({loanId : req.params.loanId})
+        !loan 
+            ? res.status(400).send({result: false, error:true, message : "Error Occurs", data: null })
+            : res.send({result: true, error:false, message : "Successfully created.", data: loan})
+    }catch(error){
+        res.status(400).send({result: false, error:true, message : error.message, detail: error, data: null})
+    }
+}
+
+// Get Loans By user id
+
+exports.getLoansByUserId = async (req, res) =>{
+    try{
+        let loans = await Loan.find({propOf : req.params.userId})
+        !loans 
+            ? res.status(400).send({result: false, error:true, message : "Error Occurs", data: null })
+            : res.send({result: true, error:false, message : "Successfully created.", data: loans})
+    }catch(error){
         res.status(400).send({result: false, error:true, message : error.message, detail: error, data: null})
     }
 }

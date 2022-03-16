@@ -36,7 +36,8 @@ const UserSchema = new mongoose.Schema({
   },
   storeId :{
     type: String,
-    default : getStoreId()
+    unique: true, 
+    required: true
   },
   loans:[],
   isVerified : {
@@ -79,6 +80,12 @@ UserSchema.methods.set_username = function(email){
   this.username = email.split('@')[0]
 }
 
+// SET USERNAME
+
+UserSchema.methods.set_storeId = function(){
+  this.storeId = getStoreId()
+}
+
 // GET USER TO AUTH JSON
 UserSchema.methods.toAuthJson = function () {
   return {
@@ -86,6 +93,7 @@ UserSchema.methods.toAuthJson = function () {
     email: this.email,
     name: this.name,
     username: this.username,
+    storeId: this.storeId,
     isVerified: this.isVerified
   };
 };
