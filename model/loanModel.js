@@ -40,6 +40,12 @@ const LoanSchema = new mongoose.Schema({
     status: {
       type: String,
       default :"active"
+    },
+    time:{
+      type: String,
+    },
+    storeId : {
+      type: String
     }
 
   });

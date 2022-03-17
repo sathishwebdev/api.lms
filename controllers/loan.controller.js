@@ -32,7 +32,8 @@ exports.createNewLoan = async (req, res) =>{
                 quantity : data.propertyQuantity
             },
             time : data.time,
-            propOf : req.params.userId
+            propOf : req.params.userId,
+            storeId : user.storeId
         });
 
         loan.setLoanId(user.storeId, user.loans.length )
@@ -77,3 +78,19 @@ exports.getLoansByUserId = async (req, res) =>{
         res.status(400).send({result: false, error:true, message : error.message, detail: error, data: null})
     }
 }
+
+// INSIGHTS OF STORE
+
+exports.storeInsight = async (req, res)=>{
+    try{
+        let loans = await Loan.find({propOf : req.params.userId})
+        if(!loans){
+            res.status(400).send({result: false, error:true, message : "Error Occurs", data: null })
+        }else{
+            
+        }
+    }catch(error){
+        res.status(400).send({result: false, error:true, message : error.message, detail: error, data: null})
+    }
+}
+
