@@ -7,6 +7,12 @@ const LoanSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    surName:{
+      type: String
+    },
+    gender:{
+      type:String
+    },
     address: {
       type: String,
       required: true
