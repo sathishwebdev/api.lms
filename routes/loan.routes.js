@@ -11,5 +11,10 @@ router.get("/:userId", loanController.getLoansByUserId)
 // GET LOAN DETAIL BY LOAN ID
 router.get('/detail/:loanId', loanController.getLoanByLoanId)
 
+// ADD LOAN AMOUNT DETAILS
+router.post('/add/detail/:loanId', loanController.addLoanActivity)
+
+// CLOSE ACCOUNT
+router.put('/close/:loanId', loanController.closeAccount)
 
 module.exports = router;

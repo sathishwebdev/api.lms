@@ -37,7 +37,9 @@ const LoanSchema = new mongoose.Schema({
       type: Number,
       default: 2
     },
-    activities :[],
+    activities :{
+      type: Object
+    },
     property : {},
     propOf : {
       type : String,

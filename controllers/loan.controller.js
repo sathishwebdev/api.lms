@@ -94,3 +94,35 @@ exports.storeInsight = async (req, res)=>{
     }
 }
 
+//  ADD LOAN ACTIVITY
+
+exports.addLoanActivity = async (req, res)=>{
+    try{
+        let loan = await Loan.findOne({loanId : req.params.loanId})
+        let data = {...req.body}
+        let responce = await Loan.findByIdAndUpdate(loan._id,{
+            activities : data
+        })
+        !responce 
+            ? res.status(400).send({result: false, error:true, message : "Error Occurs", data: null })
+            : res.send({result: true, error:false, message : "Successfully created.", data: loan})
+       
+    }catch(error){
+        res.status(400).send({result: false, error:true, message : error.message, detail: error, data: null})
+    }
+}
+
+
+//  CLOSE THE ACCOUNT 
+
+exports.closeAccount = async (req, res)=>{
+    try{
+        let responce = await Loan.findByIdAndUpdate(req.params.loanId,{status: "closed"})
+        !responce 
+        ? res.status(400).send({result: false, error:true, message : "Error Occurs", data: null })
+        : res.send({result: true, error:false, message : "Successfully created.", data: responce})
+   
+    }catch(error){
+        res.status(400).send({result: false, error:true, message : error.message, detail: error, data: null})
+    }
+}
